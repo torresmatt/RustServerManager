@@ -19,12 +19,11 @@ namespace RustServerManager
 	{
 		public static void Main(string[] args)
 		{
-			List<RustServer> servers = new List<RustServer>();
-			
-			servers.Add(new RustServer());
-
-			
-			
+			ServerList list = new ServerList();
+			list.add();
+			list.add();
+			list.serialize();
+			Console.WriteLine("Press any key to continue...");
 			Console.ReadKey(true);
 		}
 	}
