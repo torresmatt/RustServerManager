@@ -7,6 +7,10 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using RustServerManager;
 
 namespace RustServerManager
@@ -15,10 +19,11 @@ namespace RustServerManager
 	{
 		public static void Main(string[] args)
 		{
-			RustServer server = new RustServer();
-			Console.WriteLine(server.buildArgs());
+			List<RustServer> servers = new List<RustServer>();
 			
-			server.serialize();
+			servers.Add(new RustServer());
+
+			
 			
 			Console.ReadKey(true);
 		}
