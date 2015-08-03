@@ -53,6 +53,7 @@ namespace RustServerManager
 			if (!File.Exists(m_dataPath))
 			{
 				Console.WriteLine("Cannot find data file " + m_dataPath);
+				return;
 			}
 			
 			// make file stream
