@@ -7,10 +7,6 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using RustServerManager;
 
 namespace RustServerManager
@@ -20,8 +16,8 @@ namespace RustServerManager
 		public static void Main(string[] args)
 		{
 			ServerList list = new ServerList();
-			list.add();
-			list.add();
+			list.deSerialize();
+			Console.WriteLine(list.summarize());
 			list.serialize();
 			Console.WriteLine("Press any key to continue...");
 			Console.ReadKey(true);

@@ -18,6 +18,7 @@ namespace RustServerManager
 	/// </summary>
 	/// 
 	
+	[Serializable]
 	public class RustServer
 	{
 		public string m_hostName;
@@ -52,6 +53,29 @@ namespace RustServerManager
 			result += " +server.maxplayers " + m_maxPlayers;
 			
 			return result;
-		}		
+		}
+		
+		public string summarize()
+		{
+			string result = "";
+			result += "Hostname = \"" + m_hostName + "\"\n";
+			result += "Identity = \"" + m_identity + "\"\n";
+			result += "Seed = " + m_seed + "\n";
+			result += "World size = " + m_worldSize + "m squared\n";
+			result += "Port number = " + m_portNumber + "\n";
+			result += "Max players = " + m_maxPlayers + "\n";
+			
+			result += "Branch = ";
+			if (m_isDev)
+			{
+				result += "Development\n";
+			}
+			else
+			{
+				result += "Main\n";
+			}
+			
+			return result;
+		}
 	}
 }

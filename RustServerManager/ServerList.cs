@@ -11,8 +11,9 @@ using RustServerManager;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace RustServerManager
 {
@@ -23,18 +24,18 @@ namespace RustServerManager
 	public class ServerList
 	{
 		public List<RustServer> m_list;
-		public string m_dataDir;
-		public string m_dataFile;
+		public string m_dataFolder;
+		public string m_dataPath;
 		public string m_devPath;
 		public string m_mainPath;
 		
 		// default constructor
 		public ServerList()
 		{
-			// stub: add check for file to deserialize from.
+		
 			m_list = new List<RustServer>();
-			m_dataDir = "server_data\\";
-			m_dataFile  = "server_list.xml";
+			m_dataFolder = "server_data\\";
+			m_dataPath = "server_data\\server_list.dat";
 			m_devPath = "servers\\rust_server_dev\\";
 			m_mainPath = "server\\rust_server_main\\";
 		}
@@ -45,23 +46,59 @@ namespace RustServerManager
 			m_list.Add(new RustServer());
 		}
 		
+		// method for deserializing the list of servers from a file
+		public void deSerialize()
+		{
+			// does file exist? If not, return
+			if (!File.Exists(m_dataPath))
+			{
+				Console.WriteLine("Cannot find data file " + m_dataPath);
+			}
+			
+			// make file stream
+			FileStream inFile = new FileStream(m_dataPath, FileMode.Open);
+			
+			// make formatter
+			BinaryFormatter formatter = new BinaryFormatter();
+			
+			// deserialize into list
+			m_list = (List<RustServer>) formatter.Deserialize(inFile);
+			
+			// close file stream
+			inFile.Close();
+		}
+		
 		// method for serializing the list of server objects to a file.
 		public void serialize()
 		{
 			// Does the server_data folder exist? If not, make it.
-			if (!Directory.Exists(m_dataDir))
+			if (!Directory.Exists(m_dataFolder))
 			{
-				Directory.CreateDirectory(m_dataDir);
+				Directory.CreateDirectory(m_dataFolder);
 			}
 			
-			// make a serializer
-			var serializer = new XmlSerializer(typeof(List<RustServer>));
+			// make file stream
+			FileStream outFile = new FileStream(m_dataPath, FileMode.Create);			
+			// make binary formatter
+			BinaryFormatter formatter = new BinaryFormatter();
 			
+			// serialize it!
+			formatter.Serialize(outFile, m_list);
 			
-			using (var stream = File.OpenWrite(m_dataDir + m_dataFile))
+			// close stream
+			outFile.Close();
+		}
+		
+		public string summarize()
+		{
+			string result = "";
+			foreach (RustServer server in m_list)
 			{
-				serializer.Serialize(stream,m_list);
-			}
+				result += server.summarize();
+				result += "\n";
+			}				
+				
+			return result;
 		}
 	}
 }
