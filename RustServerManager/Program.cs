@@ -18,7 +18,10 @@ namespace RustServerManager
 			ServerList list = new ServerList();
 			list.deSerialize();
 			Console.WriteLine(list.summarize());
-			list.serialize();
+
+			ServerDownloader.install();
+			ServerDownloader.update();
+			
 			Console.WriteLine("Press any key to continue...");
 			Console.ReadKey(true);
 		}
