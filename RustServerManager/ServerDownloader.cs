@@ -35,6 +35,7 @@ namespace RustServerManager
 			using (var client = new WebClient())
 			{
 				client.DownloadFile(downloadURL,zipPath());
+				client.
 			}
 		}
 		
