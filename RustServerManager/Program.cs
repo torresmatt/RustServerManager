@@ -16,6 +16,8 @@ namespace RustServerManager
 		public static void Main(string[] args)
 		{
 			var menu = new Menu();
+			menu.mainMenu();
+			Console.Write("End of program. Press any key.");
 			Console.ReadKey(true);
 		}
 	}

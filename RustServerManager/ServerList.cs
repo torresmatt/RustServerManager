@@ -37,6 +37,20 @@ namespace RustServerManager
 			m_devPath = "servers\\rust_server_dev\\";
 			m_mainPath = "server\\rust_server_main\\";
 		}
+
+		// getters and setters
+		
+		public List<RustServer> list
+		{
+			get
+			{
+				return m_list;
+			}
+			set
+			{
+				m_list = value;
+			}
+		}
 		
 		// method for building a new server for the list
 		public void add()
@@ -56,7 +70,6 @@ namespace RustServerManager
 			// does file exist? If not, return
 			if (!File.Exists(m_dataPath))
 			{
-				Console.WriteLine("Cannot find data file " + m_dataPath);
 				return;
 			}
 			
