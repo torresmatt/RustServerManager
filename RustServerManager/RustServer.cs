@@ -21,16 +21,17 @@ namespace RustServerManager
 	[Serializable]
 	public class RustServer
 	{
-		public string m_hostName;
-		public string m_identity;
-		public string m_portNumber;
-		public string m_seed;
-		public int m_maxPlayers;
-		public int m_worldSize;
-		public bool m_isDev;		
+		private string m_hostName;
+		private string m_identity;
+		private string m_portNumber;
+		private string m_seed;
+		private int m_maxPlayers;
+		private int m_worldSize;
+		private bool m_isDev;		
 		
 		public RustServer()
 		{
+			// Initialize member variables to defaults
 			m_hostName = "Rust Server";
 			m_identity = "rust_server";
 			m_portNumber = "28015";
@@ -52,11 +53,45 @@ namespace RustServerManager
 			result += " +server.port " + m_portNumber;
 			result += " +server.maxplayers " + m_maxPlayers;
 			
+			// return the constructed string
+			return result;
+		}
+		
+		public string steamCMDArgs()
+		{
+			string result = "";
+			
+			result += "+login anonymous";
+			
+			result += " +force_install_dir ..\\servers\\";
+			if (m_isDev)
+			{
+				result += "dev_server";
+			}
+			else
+			{
+				result += "main_server";
+			}
+			
+			result += " +app_update 258550 -beta ";
+			if (m_isDev)
+			{
+				result += "development";
+			}
+			else
+			{
+				result += "experimental";
+			}
+			result += " validate";
+			
+			result += " +quit";			
+			
 			return result;
 		}
 		
 		public string summarize()
 		{
+			// build a string line by line containing info about the server
 			string result = "";
 			result += "Hostname = \"" + m_hostName + "\"\n";
 			result += "Identity = \"" + m_identity + "\"\n";
@@ -65,6 +100,7 @@ namespace RustServerManager
 			result += "Port number = " + m_portNumber + "\n";
 			result += "Max players = " + m_maxPlayers + "\n";
 			
+			// add the appropriate branch name depending on whether the server is flagged as dev
 			result += "Branch = ";
 			if (m_isDev)
 			{
@@ -75,7 +111,75 @@ namespace RustServerManager
 				result += "Main\n";
 			}
 			
+			// return the constructed string
 			return result;
+		}
+		
+		// getters setters start here
+		
+		public string hostName
+		{
+			get
+			{
+				return m_hostName;
+			}
+			
+			set
+			{
+				m_hostName = value;
+			}
+		}
+		
+		public string identity
+		{
+			get
+			{
+				return m_identity;
+			}
+			
+			set
+			{
+				// make the passed in value lowercase
+				value = value.ToLower();
+				// make an empty string to add to and be returned later
+				string result = "";
+				// go through each character in the string
+				foreach (char c in value)
+				{
+					// if it isn't a symbol, punctuation or whitespace, we want to add it to the string in some form
+					if (!Char.IsSymbol(c) && !Char.IsPunctuation(c))
+					{
+						// if it is a separator, add _
+						if (Char.IsSeparator(c))
+						{
+							result += '_';
+						}
+						// otherwise, add the character
+						else
+						{
+							result += c;
+						}
+					}
+				}
+				m_identity = result;
+			}
+		}
+		
+		public bool isDev
+		{
+			get
+			{
+				return m_isDev;
+			}
+			set
+			{
+				// if it is a different value, change it and update the identity to reflect dev branch or not
+				if (value != m_isDev)
+				{
+					m_isDev = value;
+					hostName = m_hostName;
+				}
+			}
 		}
 	}
 }

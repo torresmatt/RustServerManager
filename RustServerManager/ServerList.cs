@@ -7,13 +7,10 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
  
-using RustServerManager;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 
 namespace RustServerManager
 {
@@ -44,6 +41,12 @@ namespace RustServerManager
 		public void add()
 		{
 			m_list.Add(new RustServer());
+		}
+		
+		// method to erase m_list for this instance of ServerList
+		public void clear()
+		{
+			m_list = new List<RustServer>();
 		}
 		
 		// method for deserializing the list of servers from a file
