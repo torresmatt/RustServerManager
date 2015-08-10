@@ -15,15 +15,7 @@ namespace RustServerManager
 	{
 		public static void Main(string[] args)
 		{
-			var server = new RustServer();
-			server.hostName = "Test";
-			server.identity = "Matt's best server #1";
-			Console.WriteLine(server.summarize());
-			ServerDownloader.updateServer(ref server);
-			Console.WriteLine("Changing server to dev branch...");
-			server.isDev = true;
-			Console.WriteLine(server.summarize());
-			ServerDownloader.updateServer(ref server);
+			var menu = new Menu();
 			Console.ReadKey(true);
 		}
 	}

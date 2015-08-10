@@ -15,7 +15,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace RustServerManager
 {
 	/// <summary>
-	/// Description of ServerList.
+	/// This is a static class that will help with downloading and maintaining steamcmd and the server files
+	/// for each type of server.
 	/// </summary>
 	
 	public class ServerList
